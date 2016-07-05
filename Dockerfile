@@ -18,6 +18,7 @@ RUN bash smrtanalysis_2.3.0.140936.run -p smrtanalysis-patch_2.3.0.140936.p5.run
 
 RUN rm -rf *
 
-RUN wget http://github.com/cyverseuk/renseq/raw/runRenSeq.sh
+COPY scripts /home/admin
+COPY templates /home/admin
 
-ENTRYPOINT ["/home/admin/runRenSeq.sh"]
+ENTRYPOINT ["/home/admin/scripts/runRenSeq.sh"]
