@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<smrtpipeSettings>
+  <global>
+    <param name="version">
+        <value>3</value>
+    </param>
+    <param name="fetch">
+        <value>common/protocols/preprocessing/Fetch.1.xml</value>
+    </param>
+    <param name="state">
+        <value>active</value>
+    </param>
+    <param name="Control Filtering">
+        <value>common/protocols/control/KeepControlReads.1.xml</value>
+    </param>
+    <param name="assembly">
+        <value>common/protocols/assembly/PreAssemblerHGAP.3.xml</value>
+    </param>
+    <param name="consensus">
+        <value>common/protocols/consensus/AssemblyPolishing.1.xml</value>
+    </param>
+    <param name="description">
+        <value>(BETA) HGAP version 3. PacBio de novo assembler optimized for speed.</value>
+    </param>
+    <param name="filtering">
+        <value>common/protocols/filtering/PreAssemblerSFilter.1.xml</value>
+    </param>
+    <param name="mapping">
+        <value>common/protocols/mapping/BLASR.1.xml</value>
+    </param>
+    <param name="otfReference">
+        <value>reference</value>
+    </param>
+    <param name="referenceUploader">
+        <value>common/protocols/referenceuploader/ReferenceUploaderUnitig.1.xml</value>
+    </param>
+    <param name="deferRefCheck">
+        <value>True</value>
+    </param>
+    <param name="name">
+        <value>RS_HGAP_Assembly_3</value>
+    </param>
+  </global>
+  <module name="P_Fetch">
+    <param name="moduleName">
+        <value>P_Fetch</value>
+    </param>
+    <param name="description">
+        <value>Sets up inputs</value>
+    </param>
+  </module>
+  <module name="P_Filter">
+    <param name="moduleName">
+        <value>P_Filter</value>
+    </param>
+    <param name="minSubReadLength">
+        <value>2000</value>
+    </param>
+    <param name="description">
+        <value>Filter reads for use in the pre-assembly step of HGAP, the hierarchical genome assembly process.</value>
+    </param>
+    <param name="whiteList" label="Read IDs to whitelist">
+         <value>/tgac/workarea/group-td/paajanep/potato/pacbio/hgap_renseq_americanum/01-blasr/edited/whitelist.txt</value>
+    </param>
+    <param name="minLength">
+        <value>1000</value>
+    </param>
+    <param name="readScore">
+        <value>0.85</value>
+    </param>
+  </module>
+  <module name="P_FilterReports">
+    <param name="moduleName">
+        <value>P_FilterReports</value>
+    </param>
+  </module>
+  <module name="P_PreAssemblerDagcon">
+    <param name="minLongReadLength">
+        <value>1000</value>
+    </param>
+    <param name="totalBestn">
+        <value>24</value>
+    </param>
+    <param name="minCorCov">
+        <value>6</value>
+    </param>
+    <param name="moduleName">
+        <value>P_PreAssemblerDagcon</value>
+    </param>
+    <param name="splitBestn">
+        <value>10</value>
+    </param>
+    <param name="targetChunks">
+        <value>6</value>
+    </param>
+    <param name="computeLengthCutoff">
+      <value>True</value>
+    </param>
+    <param name="layoutOpts" hidden="false">
+       <value> --overlapTolerance 100 --trimHit 50 </value>
+    </param>
+    <param name="blasrOpts">
+        <value>-noSplitSubreads -minReadLength 200 -maxScore -1000 -maxLCPLength 16</value>
+    </param>
+    <param name="title">
+        <value>Using DAG-based consensus algorithm, pre-assemble long reads as the first step of the Hierarchical Genome Assembly process (HGAP). Version 2 is a stepping stone for scaling to much larger genomes.</value>
+    </param>
+  </module>
+  <module name="P_AssembleUnitig">
+    <param name="merSize">
+        <value>14</value>
+    </param>
+    <param name="defaultFrgMinLen">
+        <value>500</value>
+    </param>
+    <param name="moduleName">
+        <value>P_AssembleUnitig</value>
+    </param>
+    <param name="ovlMinLen">
+        <value>40</value>
+    </param>
+    <param name="libraryName">
+        <value>pacbioReads</value>
+    </param>
+    <param name="specTmpl">
+        <value>analysis/etc/celeraAssembler/unitig.spec</value>
+    </param>
+    <param name="description">
+        <value>This module runs Celera Assembler v8.1 to the unitig step, then finishes with our custom unitig consensus caller</value>
+    </param>
+    <param name="genomeSize">
+        <value>7000000</value>
+    </param>
+    <param name="ovlErrorRate">
+        <value>0.02</value>
+    </param>
+    <param name="xCoverage">
+        <value>30</value>
+    </param>
+    <param name="maxSlotPerc">
+        <value>1</value>
+    </param>
+  </module>
+  <module name="P_ReferenceUploader">
+    <param name="moduleName">
+        <value>P_ReferenceUploader</value>
+    </param>
+    <param name="runUploaderUnitig">
+        <value>True</value>
+    </param>
+    <param name="runUploaderHgap">
+        <value>False</value>
+    </param>
+    <param name="sawriter">
+        <value>sawriter -blt 8 -welter</value>
+    </param>
+    <param name="runUploader">
+        <value>False</value>
+    </param>
+    <param name="samIdx">
+        <value>samtools faidx</value>
+    </param>
+    <param name="name">
+        <value>reference</value>
+    </param>
+  </module>
+  <module name="P_Mapping">
+    <param name="maxHits">
+        <value>10</value>
+    </param>
+    <param name="maxDivergence">
+        <value>30</value>
+    </param>
+    <param name="placeRepeatsRandomly">
+        <value>True</value>
+    </param>
+    <param name="pulseMetrics">
+        <value>DeletionQV,IPD,InsertionQV,PulseWidth,QualityValue,MergeQV,SubstitutionQV,DeletionTag</value>
+    </param>
+    <param name="pbalign_opts">
+        <value>--seed=1 --minAccuracy=0.75 --minLength=50 --algorithmOptions="-useQuality"</value>
+    </param>
+    <param name="samBam">
+        <value>True</value>
+    </param>
+    <param name="moduleName">
+        <value>P_Mapping</value>
+    </param>
+    <param name="minAnchorSize">
+        <value>12</value>
+    </param>
+    <param name="description">
+        <value>BLASR maps reads to genomes by finding the highest scoring local alignment or set of local alignments between the read and the genome. The first set of alignments is found by querying an index of the reference genome, and then refining until only high scoring alignments are retained.  Additional pulse metrics are loaded into the resulting cmp.h5 file to enable downstream use of the Quiver algorithm.</value>
+    </param>
+    <param name="loadPulsesOpts">
+        <value>bymetric</value>
+    </param>
+    <param name="gff2Bed">
+        <value>True</value>
+    </param>
+  </module>
+  <module name="P_MappingReports">
+    <param name="moduleName">
+        <value>P_MappingReports</value>
+    </param>
+  </module>
+  <module name="P_AssemblyPolishing">
+    <param name="moduleName">
+        <value>P_AssemblyPolishing</value>
+    </param>
+    <param name="description">
+        <value>Polish a pure-PacBio assembly for maximum accuracy using the Quiver algorithm.</value>
+    </param>
+    <param name="enableMapQVFilter">
+        <value>True</value>
+    </param>
+  </module>
+</smrtpipeSettings>
