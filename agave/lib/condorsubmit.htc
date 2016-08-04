@@ -1,13 +1,12 @@
 universe = docker
 docker_image = cyverseuk/renseq:v0.1.1
 
-output = blast.out
-error = blast.err
-log = blast.log
+output = renseq.out
+error = renseq.err
+log = renseq.log
 
-request_memory = 1G
+request_memory = 16G
+request_cpus = 8
 
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
-
-transfer_output_files = 
