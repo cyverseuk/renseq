@@ -1,0 +1,77 @@
+{
+  "name"          : "renseq",
+  "label"         : "Renseq PacBio Pipeline",
+  "version"       : "0.0.1",
+  "executionType" : "CLI",
+
+  "executionSystem"  : "cyverseUK-Batch2",
+  "deploymentSystem" : "cyverseUK-Storage2",
+  "deploymentPath"  : "renseq",
+  "templatePath"    : "wrapper.sh",
+  "testPath"        : "test.sh",
+  "parallelism"     : "SERIAL",
+  "shortDescription" : "Test for renseq pipeline",
+  "longDescription"  : "Test for renseq pipeline",
+  "tags": [ "testing"],
+  "ontology": [ ],
+
+  "inputs" : [ {
+      "id": "h5",
+      "details" : {
+        "label": "PacBio h5 files",
+        "description": "h5 Files that will be assembled"
+      },
+      "value": { 
+        "required" : "true",
+        "default" : "agave://data.iplantcollaborative.org/home/erikvdbergh/testdata/test.h5",
+        "visible":true
+      },
+      "semantics": {
+        "minCardinality": 1,
+	"maxCardinality": -1
+      } 
+    },
+    {
+      "id": "adapters",
+      "details" : {
+        "label": "Adapters" ,
+        "description": "FASTA file containing adapters to filter"
+      },
+      "value": {
+        "required" : "true",
+        "default" : "agave://data.iplantcollaborative.org/home/erikvdbergh/testdata/americanum_adapter.fasta",
+        "visible":true
+      },
+      "semantics": {
+        "maxCardinality": 1
+      }
+    }
+  ],
+  "parameters" : [
+    {
+      "id": "genomesize",
+      "details" : {
+        "label": "Genome size" ,
+        "description": "Estimation of the sequenced genome size"
+      },
+      "value": {
+        "required" : "true",
+        "type": "number",
+        "default": 7000000,
+        "visible":"true"
+      }
+    },
+    {
+      "id": "readcutoff",
+      "details" : {
+        "label": "Read length Cutoff",
+        "description": "Estimation of the sequenced genome size"
+      },
+      "value": {
+        "required" : "false",
+        "type":"number",
+        "visible":"true"
+      }
+    }
+  ]
+}

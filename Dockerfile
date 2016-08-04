@@ -21,7 +21,7 @@ RUN bash smrtanalysis_2.3.0.140936.run -p smrtanalysis-patch_2.3.0.140936.p5.run
 RUN rm -rf *
 
 RUN mkdir /home/admin/scripts
-COPY scripts /home/admin/scripts
+COPY scripts/* /home/admin/scripts/
 
 USER root
 

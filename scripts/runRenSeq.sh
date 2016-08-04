@@ -71,7 +71,7 @@ echo [`date`] inserting parameters and generating params.xml
 python $basedir/insert_params.py $basedir/params_v5.xml `pwd`/$WHITELIST > params.xml
 
 echo [`date`] generating input.xml
-rm input.fofn
+rm input.fofn 2>/dev/null
 
 for (( i=1; i<${NUMFILES}; i++ )) ; do
   raw=${ARGV[$i]}
