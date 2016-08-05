@@ -8,7 +8,7 @@ RCUTOFF="${readcutoff}"
 
 echo arguments = ${adapters} ${h5} >> lib/condorsubmit.htc
 H5COMMA=`echo ${h5} | sed -e 's/ /,/g'`
-echo transfer_input_files = ${adapters},${H5COMMA} >> lib/condorsubmit.htc
+echo transfer_input_files = ${adapters},$H5COMMA >> lib/condorsubmit.htc
 echo queue >> lib/condorsubmit.htc
 
 jobid=`condor_submit lib/condorsubmit.htc`
