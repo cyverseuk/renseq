@@ -1,9 +1,7 @@
 #!/bin/bash
 
-adapters=$1
-h5=$2
-#H5="${h5}"
-#ADAPTERS="${adapters}"
+H5="${h5}"
+ADAPTERS="${adapters}"
 
 GSIZE="${genomesize}"
 RCUTOFF="${readcutoff}"
