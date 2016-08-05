@@ -3,6 +3,8 @@
 # Author: Erik v.d. Bergh
 # Runs the RenSeq Pipeline developed in TGAC by Pirita Paajananen
 
+# TODO add the genomesize and readlength parameter
+
 . $("/opt/smrtanalysis/admin/bin/getsetupfile")
 
 basedir=$(dirname $0)
@@ -81,4 +83,5 @@ done
 fofnToSmrtpipeInput.py input.fofn > input.xml
 
 echo [`date`] Running smartpipe...
-smrtpipe.py -D NPROC=3 -D CLUSTER=BASH -D MAX_THREADS=4 --params=params.xml xml:input.xml > smrtpipe.log
+# TODO make NPROC a parameter for the script
+smrtpipe.py -D NPROC=12 -D CLUSTER=BASH -D MAX_THREADS=4 --params=params.xml xml:input.xml > smrtpipe.log
