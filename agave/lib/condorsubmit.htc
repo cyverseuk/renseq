@@ -1,5 +1,5 @@
 universe = docker
-docker_image = cyverseuk/renseq:v0.1.1
+docker_image = cyverseuk/renseq:v0.1.2
 
 output = renseq.out
 error = renseq.err
