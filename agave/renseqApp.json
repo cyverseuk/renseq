@@ -1,12 +1,12 @@
 {
   "name"          : "renseq",
   "label"         : "Renseq PacBio Pipeline",
-  "version"       : "0.0.1",
+  "version"       : "0.1.2",
   "executionType" : "CLI",
 
   "executionSystem"  : "cyverseUK-Batch2",
   "deploymentSystem" : "cyverseUK-Storage2",
-  "deploymentPath"  : "renseq",
+  "deploymentPath"  : "renseq/agave",
   "templatePath"    : "wrapper.sh",
   "testPath"        : "test.sh",
   "parallelism"     : "SERIAL",

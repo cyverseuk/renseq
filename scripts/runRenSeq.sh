@@ -77,7 +77,7 @@ rm input.fofn 2>/dev/null
 
 for (( i=1; i<${NUMFILES}; i++ )) ; do
   raw=${ARGV[$i]}
-  echo readlink -f $raw >> input.fofn
+  echo `readlink -f $raw` >> input.fofn
 done
 
 fofnToSmrtpipeInput.py input.fofn > input.xml

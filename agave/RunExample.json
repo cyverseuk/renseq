@@ -1,0 +1,13 @@
+{
+  "name" : "renseqExampleJob",
+  "appId": "renseq-0.1.2",
+  "archive": "true",
+  "batchQueue": "normal",
+  "inputs": {
+    "adapters" : "agave://cyverseUK-Storage2/demodata/americanum_adapter.fasta",
+    "h5": "agave://cyverseUK-Storage2/demodata/m150211_161134_42165_c100775742550000001823162607301530_s1_p0.1.bax.h5"
+  },
+  "parameters": {
+    "genomesize" : 7000000
+  }
+}
