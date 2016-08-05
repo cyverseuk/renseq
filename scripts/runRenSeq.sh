@@ -68,7 +68,7 @@ for raw in 1-blasr/trimmed/*.m4; do
 done
 
 echo [`date`] inserting parameters and generating params.xml
-python $basedir/insert_params.py $basedir/params_v5.xml `pwd`/$WHITELIST > params.xml
+python $basedir/insert_params.py $basedir/param_template.xml `pwd`/$WHITELIST > params.xml
 
 echo [`date`] generating input.xml
 rm input.fofn 2>/dev/null
