@@ -5,12 +5,35 @@
 
 # TODO add the genomesize and readlength parameter
 
+# Thanks to RObert Siemer on StackOverflow for the getopts tutorial:
+# https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
+
+# default num threads is 2
+nproc=2
+
+PARSED=`getopt --options t: --longoptions --threads --name "$0" -- "$@"`
+eval set -- "$PARSED"
+
+while true; do
+  case "$1" in
+  -t|--threads)
+    echo Picked up threads option, using "$2" threads
+    nproc="$2"
+    shift 2
+    ;;
+  --)
+    shift
+    break
+    ;;
+  esac
+done
+
 . $("/opt/smrtanalysis/admin/bin/getsetupfile")
 
 basedir=$(dirname $0)
 
 if [ "$#" -lt 2 ]; then
-  echo -e "\nUsage:\trunRenSeq.sh adapter.fasta file1.h5 file2.h5 ...\n"
+  echo -e "\nUsage:\trunRenSeq.sh adapter.fasta file1.h5 file2.h5 ...\nOptional: -t [int] to give number of threads. Default number of threads is 2\n"
   exit
 fi
 
@@ -49,7 +72,8 @@ for (( i=1; i<${NUMFILES}; i++ )) ; do
   raw=${ARGV[$i]}
   echo [`date`] Running blasr on $raw
   rawbase=`basename $raw`
-  blasr $raw $ADAPTER -m 1 -bestn 1 -out 1-blasr/trimmed/$rawbase.m4
+  blasr $raw $ADAPTER -nproc $nproc -m 1 -bestn 1 -out 1-blasr/trimmed/$rawbase.m4
+
 done
 echo [`date`] Blasr on trimmed files done
 
@@ -84,4 +108,4 @@ fofnToSmrtpipeInput.py input.fofn > input.xml
 
 echo [`date`] Running smartpipe...
 # TODO make NPROC a parameter for the script
-smrtpipe.py -D NPROC=12 -D CLUSTER=BASH -D MAX_THREADS=4 --params=params.xml xml:input.xml > smrtpipe.log
+smrtpipe.py -D NPROC=$nproc -D CLUSTER=BASH -D MAX_THREADS=4 --params=params.xml xml:input.xml > smrtpipe.log
