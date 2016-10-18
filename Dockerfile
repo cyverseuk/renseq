@@ -26,6 +26,8 @@ COPY scripts/* /home/admin/scripts/
 USER root
 
 RUN chown admin:admin /home/admin/scripts/*
+RUN chmod ugo+w -R /tmp
+RUN chmod ugo+w -R /opt/smrtanalysis
 
 USER admin
 
