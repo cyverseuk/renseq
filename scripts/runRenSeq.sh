@@ -30,7 +30,12 @@ done
 
 . $("/opt/smrtanalysis/admin/bin/getsetupfile")
 
-basedir=$(dirname $0)
+basedir=`readlink -f $0`
+echo "basedir is $basedir"
+basedir=$(dirname $basedir)
+echo "scriptsdir is $basedir"
+
+
 
 if [ "$#" -lt 2 ]; then
   echo -e "\nUsage:\trunRenSeq.sh adapter.fasta file1.h5 file2.h5 ...\nOptional: -t [int] to give number of threads. Default number of threads is 2\n"
@@ -43,6 +48,22 @@ ARGV=("$@")
 NUMFILES=${#ARGV[@]}
 
 #echo [`date`] processing $NUMFILES data files
+
+echo [`date`] Creating output directory
+mkdir output
+echo [`date`] Moving data into output dir
+mv $ADAPTER output
+ADAPTER=`basename $ADAPTER`
+
+for (( i=1; $i<${NUMFILES}; i++ )) ; do
+  raw=${ARGV[$i]}
+  mv $raw output
+  ARGV[$i]=`basename ${ARGV[$i]}`
+done
+
+cd output
+
+
 
 echo [`date`] Making directories 1-blasr/raw and 1-blasr/trimmed
 mkdir -p 1-blasr/{raw,trimmed}
