@@ -29,6 +29,8 @@ RUN chown admin:admin /home/admin/scripts/*
 RUN chmod ugo+w -R /tmp
 RUN chmod ugo+w -R /opt/smrtanalysis
 
+RUN usermod -d /tmp nobody
+
 USER admin
 
 ENTRYPOINT ["/home/admin/scripts/runRenSeq.sh"]
