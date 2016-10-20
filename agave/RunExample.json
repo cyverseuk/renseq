@@ -1,6 +1,6 @@
 {
   "name" : "renseqExampleJob",
-  "appId": "renseq-0.1.3",
+  "appId": "renseq-0.1.4",
   "archive": "true",
   "batchQueue": "normal",
   "inputs": {

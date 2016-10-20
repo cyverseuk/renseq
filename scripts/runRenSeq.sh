@@ -10,8 +10,9 @@
 
 # default num threads is 2
 nproc=2
+genomesize=7000000
 
-PARSED=`getopt --options t: --longoptions --threads --name "$0" -- "$@"`
+PARSED=`getopt --options t:g: --longoptions --genomesize --threads --name "$0" -- "$@"`
 eval set -- "$PARSED"
 
 while true; do
@@ -19,6 +20,11 @@ while true; do
   -t|--threads)
     echo Picked up threads option, using "$2" threads
     nproc="$2"
+    shift 2
+    ;;
+  -g|--genomesize)
+    echo Picked up genomesize option, using "$2" as genomesize
+    genomesize="$2"
     shift 2
     ;;
   --)
@@ -115,7 +121,8 @@ for raw in 1-blasr/trimmed/*.m4; do
 done
 
 echo [`date`] inserting parameters and generating params.xml
-python $basedir/insert_params.py $basedir/param_template.xml `pwd`/$WHITELIST > params.xml
+python $basedir/insert_params.py $basedir/param_template.xml whiteList `pwd`/$WHITELIST > params.xml
+python $basedir/insert_params.py $basedir/param_template.xml genomeSize $genomesize > params.xml
 
 echo [`date`] generating input.xml
 rm input.fofn 2>/dev/null

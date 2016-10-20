@@ -12,6 +12,9 @@
   "parallelism"     : "SERIAL",
   "shortDescription" : "Test for renseq pipeline",
   "longDescription"  : "Test for renseq pipeline",
+  "helpURI" : "http://www.cyverseuk.org/applications/renseq",
+  "datePublished": "23rd Aug 2016",
+  "author" : "Erik van den Bergh / Pirita Paajanen",
   "tags": [ "testing"],
   "ontology": [ ],
 
@@ -64,7 +67,7 @@
     {
       "id": "readcutoff",
       "details" : {
-        "label": "Read length Cutoff",
+        "label": "Read length Cutoff (NOT IMPLEMENTED)",
         "description": "Estimation of the sequenced genome size"
       },
       "value": {
