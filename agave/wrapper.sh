@@ -6,7 +6,7 @@ ADAPTERS="${adapters}"
 GSIZE="${genomesize}"
 RCUTOFF="${readcutoff}"
 
-if [[ -n $GSIZE ]]
+if [[ -n $GSIZE ]]; then
     GSIZE="-g $GSIZE"
 fi
 
