@@ -11,7 +11,7 @@ if [[ -n $GSIZE ]]; then
 fi
 
 cp lib/templatesubmit.htc lib/condorsubmit.htc
-echo arguments = $GSIZE ${adapters} ${h5} >> lib/condorsubmit.htc
+echo arguments = -t 12 $GSIZE ${adapters} ${h5} >> lib/condorsubmit.htc
 H5COMMA=`echo ${h5} | sed -e 's/ /,/g'`
 echo transfer_input_files = ${adapters},$H5COMMA >> lib/condorsubmit.htc
 echo queue >> lib/condorsubmit.htc
