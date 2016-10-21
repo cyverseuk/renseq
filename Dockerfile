@@ -27,7 +27,7 @@ USER root
 
 RUN chown admin:admin /home/admin/scripts/*
 RUN chmod ugo+w -R /tmp
-RUN chmod ugo+w -R /opt/smrtanalysis
+#RUN chmod ugo+w -R /opt/smrtanalysis
 
 RUN usermod -d /tmp nobody
 
