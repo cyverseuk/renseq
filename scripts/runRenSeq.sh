@@ -12,7 +12,7 @@
 nproc=2
 genomesize=7000000
 
-PARSED=`getopt --options t:g: --longoptions --genomesize --threads --name "$0" -- "$@"`
+PARSED=`getopt -o t:g: --long genomesize,threads -n "$0" -- "$@"`
 eval set -- "$PARSED"
 
 while true; do
