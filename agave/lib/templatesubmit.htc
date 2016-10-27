@@ -5,7 +5,7 @@ output = renseq.out
 error = renseq.err
 log = renseq.log
 
-request_memory = 64G
+request_memory = 124G
 request_cpus = 12
 
 should_transfer_files = YES
