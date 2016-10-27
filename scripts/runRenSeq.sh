@@ -122,7 +122,7 @@ done
 
 echo [`date`] inserting parameters and generating params.xml
 python $basedir/insert_params.py $basedir/param_template.xml whiteList `pwd`/$WHITELIST > params.xml
-python $basedir/insert_params.py $basedir/params.xml genomeSize $genomesize > params.xml
+python $basedir/insert_params.py params.xml genomeSize $genomesize > params.xml
 
 echo [`date`] generating input.xml
 rm input.fofn 2>/dev/null
