@@ -138,3 +138,4 @@ fofnToSmrtpipeInput.py input.fofn > input.xml
 echo [`date`] Running smartpipe...
 # TODO make NPROC a parameter for the script
 smrtpipe.py -D NPROC=$nproc -D CLUSTER=BASH -D MAX_THREADS=4 --params=params.xml xml:input.xml > smrtpipe.log
+echo [`date`] Finished! Exiting with status $?
