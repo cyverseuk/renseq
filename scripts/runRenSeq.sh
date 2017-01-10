@@ -163,7 +163,7 @@ fofnToSmrtpipeInput.py input.fofn > input.xml
 
 echo [`date`] Running smartpipe...
 # TODO make NPROC a parameter for the script
-if [ debug ]; then
+if [ $debug ]; then
   echo 'not running smrtpipe in debug mode'
 else
   smrtpipe.py -D NPROC=$nproc -D CLUSTER=BASH -D MAX_THREADS=4 --params=params.xml xml:input.xml > smrtpipe.log
