@@ -3,3 +3,4 @@ example_data/*
 dockervol/*
 renseq_pipeline_documentation.pdf
 renseqdata.tar.gz
+out/*

@@ -12,7 +12,9 @@
 nproc=2
 genomesize=7000000
 
-PARSED=`getopt -o t:g: --long genomesize,threads -n "$0" -- "$@"`
+debug=0
+
+PARSED=`getopt -o t:g:d --long genomesize,threads,debug -n "$0" -- "$@"`
 eval set -- "$PARSED"
 
 while true; do
@@ -26,6 +28,11 @@ while true; do
     echo Picked up genomesize option, using "$2" as genomesize
     genomesize="$2"
     shift 2
+    ;;
+  -d|--debug)
+    echo Picked up debug flag
+    debug=1
+    shift 1
     ;;
   --)
     shift
@@ -43,7 +50,7 @@ echo "scriptsdir is $basedir"
 
 
 
-if [ "$#" -lt 2 ]; then
+if [ "$#" -lt 1 ]; then
   echo -e "\nUsage:\trunRenSeq.sh adapter.fasta file1.h5 file2.h5 ...\nOptional: -t [int] to give number of threads. Default number of threads is 2\n"
   exit
 fi
@@ -63,7 +70,14 @@ ADAPTER=`basename $ADAPTER`
 
 for (( i=1; $i<${NUMFILES}; i++ )) ; do
   raw=${ARGV[$i]}
-  mv $raw output
+  echo checking $raw...
+  if [ -d $raw ]; then
+    echo $raw is a dir, moving files
+    mv $raw/* output
+  else
+    echo $raw is not a dir
+    mv $raw output
+  fi
   ARGV[$i]=`basename ${ARGV[$i]}`
 done
 
@@ -87,19 +101,30 @@ trim_by=`python $basedir/3-find_trim_by.py $ADAPTER`
 echo [`date`] Using trim length $trim_by
 
 echo [`date`] Trimming adapters from h5 files...
-for (( i=1; $i<${NUMFILES}; i++ )) ; do
-  raw=${ARGV[$i]}
+for raw in *.h5 ; do
+  #raw=${ARGV[$i]}
   echo [`date`] Trimming file $raw...
-  python $basedir/4-edit-h5.py $trim_by $raw
+
+  if [ $debug ]; then
+    echo not trimming $raw in debug mode
+  else
+    python $basedir/4-edit-h5.py $trim_by $raw
+  fi
 done
 echo [`date`] Trimmed adapters from files
 
 echo [`date`] Running blasr on trimmed files...
-for (( i=1; i<${NUMFILES}; i++ )) ; do
-  raw=${ARGV[$i]}
+#for (( i=1; i<${NUMFILES}; i++ )) ; do
+for raw in *.h5 ; do
+  #raw=${ARGV[$i]}
   echo [`date`] Running blasr on $raw
   rawbase=`basename $raw`
-  blasr $raw $ADAPTER -nproc $nproc -m 1 -bestn 1 -out 1-blasr/trimmed/$rawbase.m4
+  if [ $debug ]; then
+    touch 1-blasr/trimmed/$rawbase.m4
+    sleep 1
+  else
+    blasr $raw $ADAPTER -nproc $nproc -m 1 -bestn 1 -out 1-blasr/trimmed/$rawbase.m4
+  fi
 
 done
 echo [`date`] Blasr on trimmed files done
@@ -128,8 +153,9 @@ mv temp.xml params.xml
 echo [`date`] generating input.xml
 rm input.fofn 2>/dev/null
 
-for (( i=1; i<${NUMFILES}; i++ )) ; do
-  raw=${ARGV[$i]}
+#for (( i=1; i<${NUMFILES}; i++ )) ; do
+for raw in *.h5; do
+  #raw=${ARGV[$i]}
   echo `readlink -f $raw` >> input.fofn
 done
 
@@ -137,5 +163,9 @@ fofnToSmrtpipeInput.py input.fofn > input.xml
 
 echo [`date`] Running smartpipe...
 # TODO make NPROC a parameter for the script
-smrtpipe.py -D NPROC=$nproc -D CLUSTER=BASH -D MAX_THREADS=4 --params=params.xml xml:input.xml > smrtpipe.log
+if [ debug ]; then
+  echo 'not running smrtpipe in debug mode'
+else
+  smrtpipe.py -D NPROC=$nproc -D CLUSTER=BASH -D MAX_THREADS=4 --params=params.xml xml:input.xml > smrtpipe.log
+fi
 echo [`date`] Finished! Exiting with status $?
