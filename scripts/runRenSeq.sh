@@ -12,7 +12,7 @@
 nproc=2
 genomesize=7000000
 
-debug=0
+debug=false
 
 PARSED=`getopt -o t:g:d --long genomesize,threads,debug -n "$0" -- "$@"`
 eval set -- "$PARSED"
@@ -31,7 +31,7 @@ while true; do
     ;;
   -d|--debug)
     echo Picked up debug flag
-    debug=1
+    debug=true
     shift 1
     ;;
   --)
@@ -105,7 +105,7 @@ for raw in *.h5 ; do
   #raw=${ARGV[$i]}
   echo [`date`] Trimming file $raw...
 
-  if [ $debug ]; then
+  if [ "$debug" = true ]; then
     echo not trimming $raw in debug mode
   else
     python $basedir/4-edit-h5.py $trim_by $raw
@@ -119,7 +119,7 @@ for raw in *.h5 ; do
   #raw=${ARGV[$i]}
   echo [`date`] Running blasr on $raw
   rawbase=`basename $raw`
-  if [ $debug ]; then
+  if [ "$debug" = true ]; then
     touch 1-blasr/trimmed/$rawbase.m4
     sleep 1
   else
@@ -163,7 +163,7 @@ fofnToSmrtpipeInput.py input.fofn > input.xml
 
 echo [`date`] Running smartpipe...
 # TODO make NPROC a parameter for the script
-if [ $debug ]; then
+if [ "$debug" = true ]; then
   echo 'not running smrtpipe in debug mode'
 else
   smrtpipe.py -D NPROC=$nproc -D CLUSTER=BASH -D MAX_THREADS=4 --params=params.xml xml:input.xml > smrtpipe.log
