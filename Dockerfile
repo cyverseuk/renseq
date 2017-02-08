@@ -2,8 +2,10 @@ FROM ubuntu:16.04
 
 MAINTAINER Erik van den Bergh, Earlham Institute, Norwich
 
-RUN apt update
-RUN apt install -y wget rsync net-tools
+RUN apt update && apt install -y \
+                            wget \
+			    rsync \
+			    net-tools
 
 RUN useradd -m admin
 
