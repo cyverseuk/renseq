@@ -11,6 +11,12 @@
 # default num threads is 2
 nproc=2
 genomesize=7000000
+minsubreadlength=500
+minlength=100
+readscore=0.80
+minlongreadlength=1000
+ovlerrorrate=0.06
+xcoverage=25
 
 debug=false
 
@@ -27,6 +33,36 @@ while true; do
   -g|--genomesize)
     echo Picked up genomesize option, using "$2" as genomesize
     genomesize="$2"
+    shift 2
+    ;;
+  -s|--minsubreadlength)
+    echo Picked up minsubreadlength option, using "$2" as minsubreadlength
+    minsubreadlength="$2"
+    shift 2
+    ;;
+  -m|--minlength)
+    echo Picked up minlength option, using "$2" as minlength
+    minlength="$2"
+    shift 2
+    ;;
+  -o|--readscore)
+    echo Picked up readscore option, using "$2" as readscore
+    readscore="$2"
+    shift 2
+    ;;
+  -l|--minlongreadlength)
+    echo Picked up minlongreadlength option, using "$2" as minlongreadlength
+    minlongreadlength="$2"
+    shift 2
+    ;;
+  -e|--ovlerrorrate)
+    echo Picked up ovlerrorrate option, using "$2" as ovlerrorrate
+    ovlerrorrate="$2"
+    shift 2
+    ;;
+  -x|--xcoverage)
+    echo Picked up xcoverage option, using "$2" as xcoverage
+    xcoverage="$2"
     shift 2
     ;;
   -d|--debug)
@@ -148,6 +184,12 @@ done
 echo [`date`] inserting parameters and generating params.xml
 python $basedir/insert_params.py $basedir/param_template.xml whiteList `pwd`/$WHITELIST > params.xml
 python $basedir/insert_params.py params.xml genomeSize $genomesize > temp.xml
+python $basedir/insert_params.py temp.xml minSubReadLength $minsubreadlength > params.xml
+python $basedir/insert_params.py params.xml minLength $minlength > temp.xml
+python $basedir/insert_params.py temp.xml readScore $readscore > params.xml
+python $basedir/insert_params.py params.xml minLongReadLength $minlongreadlength > temp.xml
+python $basedir/insert_params.py temp.xml ovlErrorRate $ovlerrorrate > params.xml
+python $basedir/insert_params.py params.xml xCoverage $xcoverage > temp.xml
 mv temp.xml params.xml
 
 echo [`date`] generating input.xml

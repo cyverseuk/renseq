@@ -8,6 +8,12 @@
     "h5": "agave://cyverseUK-Storage2/demodata/m150211_161134_42165_c100775742550000001823162607301530_s1_p0.1.bax.h5"
   },
   "parameters": {
-    "genomesize" : 7000000
+    "genomesize" : 7000000,
+    "minSubReadLength": 500,
+    "minLength": 100,
+    "readScore": 0.80,
+    "minLongReadLength": 1000,
+    "ovlErrorRate": 0.06,
+    "xCoverage": 25
   }
 }

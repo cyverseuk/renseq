@@ -65,14 +65,80 @@
       }
     },
     {
-      "id": "readcutoff",
+      "id": "minSubReadLength",
       "details" : {
-        "label": "Read length Cutoff (NOT IMPLEMENTED)",
-        "description": "Estimation of the sequenced genome size"
+        "label": "Minimal sub read length",
+        "description": "Filter reads for use in the pre-assembly step of HGAP"
       },
       "value": {
         "required" : "false",
         "type":"number",
+        "default": 500,
+        "visible":"true"
+      }
+    },
+    {
+      "id": "minLength",
+      "details" : {
+        "label": "Minimal length",
+        "description": ""
+      },
+      "value": {
+        "required" : "false",
+        "type":"number",
+        "default": 100,
+        "visible":"true"
+      }
+    },
+    {
+      "id": "readScore",
+      "details" : {
+        "label": "Read score",
+        "description": ""
+      },
+      "value": {
+        "required" : "false",
+        "type":"number",
+        "default": 0.80,
+        "visible":"true"
+      }
+    },
+    {
+      "id": "minLongReadLength",
+      "details" : {
+        "label": "Minimum long read length",
+        "description": ""
+      },
+      "value": {
+        "required" : "false",
+        "type":"number",
+        "default": 1000,
+        "visible":"true"
+      }
+    },
+    {
+      "id": "ovlErrorRate",
+      "details" : {
+        "label": "OVL error rate",
+        "description": ""
+      },
+      "value": {
+        "required" : "false",
+        "type":"number",
+        "default": 0.06,
+        "visible":"true"
+      }
+    },
+    {
+      "id": "xCoverage",
+      "details" : {
+        "label": "Fold (x) coverage",
+        "description": ""
+      },
+      "value": {
+        "required" : "false",
+        "type":"number",
+        "default": 25,
         "visible":"true"
       }
     }
