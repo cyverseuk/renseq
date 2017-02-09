@@ -20,7 +20,7 @@ xcoverage=25
 
 debug=false
 
-PARSED=`getopt -o t:g:d --long genomesize,threads,debug -n "$0" -- "$@"`
+PARSED=`getopt -o t:g:s:m:o:l:e:x:d --long genomesize,threads,minsubreadlength,minlength,readscore,minlongreadlength,ovlerrorrate,xcoverage,debug -n "$0" -- "$@"`
 eval set -- "$PARSED"
 
 while true; do
@@ -211,3 +211,9 @@ else
   smrtpipe.py -D NPROC=$nproc -D CLUSTER=BASH -D MAX_THREADS=4 --params=params.xml xml:input.xml > smrtpipe.log
 fi
 echo [`date`] Finished! Exiting with status $?
+
+if [ "$debug" = true ]; then
+  echo 'hanging to enable docker inspection, ^C to quit'
+  touch empty
+  tail -f empty
+fi
