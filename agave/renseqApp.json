@@ -1,7 +1,7 @@
 {
   "name"          : "renseq",
   "label"         : "Renseq PacBio Pipeline",
-  "version"       : "0.1.4",
+  "version"       : "0.3.1",
   "executionType" : "CLI",
 
   "executionSystem"  : "cyverseUK-Batch2",
