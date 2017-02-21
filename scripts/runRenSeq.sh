@@ -178,8 +178,10 @@ for raw in 1-blasr/trimmed/*.m4; do
   echo [`date`] Extracting whitelist from $raw
   rawbase=`basename $raw`
   python $basedir/7-whitelist.py $raw 54494 > $rawbase.whitelist
-  WHITELIST=$rawbase.whitelist
 done
+
+cat *.whitelist > p_filter.whiteList
+WHITELIST=p_filter.whiteList
 
 echo [`date`] inserting parameters and generating params.xml
 python $basedir/insert_params.py $basedir/param_template.xml whiteList `pwd`/$WHITELIST > params.xml
